@@ -10,7 +10,7 @@ from Bio.Seq import Seq
 from pysam import AlignedSegment
 import sys
 
-class ab1_to_fastq(object):
+class ab1_to_fastq:
     def __init__(self):
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('inputs',nargs='+')
@@ -37,7 +37,7 @@ class ab1_to_fastq(object):
                 SeqIO.write(record,out,'fastq')
 
 
-class fastq_filter(object):
+class fastq_filter:
     def __init__(self):
         self.parser = argparse.Arumentparser()
         self.parser.add_argument('-fastqinput', required=True)
@@ -71,7 +71,7 @@ class fastq_filter(object):
         fastqfile.close()
 
 
-class bowtie2_align(object):
+class bowtie2_align:
     def __init__(self):
         self.parser = argparse.Arumentparser()
         self.parser.add_argument('-fa', required = True, help='path to fasta file')
@@ -85,7 +85,7 @@ class bowtie2_align(object):
         subprocess.call(['bowtie2', '-x', indexBaseName, '-U', self.args.fq, '-S', baseName + '.sam'])
 
 
-class sam_to_bam(object):
+class sam_to_bam:
     def __init__(self):
         self.parser = argparse.Argumentparser()
         self.parser.add_argument('-inputsam', required=True)
@@ -98,7 +98,7 @@ class sam_to_bam(object):
             file1.write(r)
         file1.close()
 
-class bam_sort(object):
+class bam_sort:
     def __init__(self):
         self.parser = argparse.Arumentparser()
         self.parser.add_argument('-inputbam', required=True)
@@ -108,7 +108,7 @@ class bam_sort(object):
         rows = pysam.sort(self.args.inputbam, os.path.splitext(self.args.inputbam)[0] + '.sorted')
 
 
-class bam_index(object):
+class bam_index:
     def __init__(self):
         self.parser = argparse.Arumentparser()
         self.parser.add_argument('-inputbam', required=True)
@@ -118,7 +118,7 @@ class bam_index(object):
         index = pysam.index(self.args.inputbam)
 
 
-class aa_pileup(object):
+class aa_pileup:
     def __init__(self):
         self.parser = argparse.Arumentparser()
         self.parser.add_argument('-BAMinput',required=True)
