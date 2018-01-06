@@ -20,7 +20,7 @@ class ab1_to_fastq:
         self.parser.add_argument('-clip3prime')
         self.args = self.parser.parse_args()
 
-    def convert(self):
+    def __call__(self):
         with open(self.args.output,'wb') as out:
             for inp in self.args.inputs:
                 record = SeqIO.parse(open(inp,'rb'),'abi').next()
@@ -48,7 +48,7 @@ class fastq_filter:
         self.parser.add_argument('-outputid', required=True)
         self.args = self.parser.parse_args()
 
-    def fq_filter(self)
+    def __call__(self)
         fastqfile = open(self.args.fastqinput,'rU')
         filter1_fastq = []
         for record in SeqIO.parse(fastqfile, "fastq"):
@@ -78,7 +78,7 @@ class bowtie2_align:
         self.parser.add_argument('-fq', required = True, help='path to fastq file')
         self.args = self.parser.parse_args()
 
-    def align(self):
+    def __call__(self):
         indexBaseName = str(self.args.fa)[:-6]
         baseName = str(self.args.fq)[:-6]
         subprocess.call(['bowtie2-build', self.args.fa, indexBaseName])
@@ -91,7 +91,7 @@ class sam_to_bam:
         self.parser.add_argument('-inputsam', required=True)
         self.args = self.parser.parse_args()
 
-    def convert(self):
+    def __call__(self):
         file1 = open(os.path.splitext(self.args.inputsam)[0] + '.bam','w')
         rows = pysam.view("-Sb", self.args.inputsam  )
         for r in rows:
@@ -104,7 +104,7 @@ class bam_sort:
         self.parser.add_argument('-inputbam', required=True)
         self.args = self.parser.parse_args()
     
-    def sort(self):
+    def __call__(self):
         rows = pysam.sort(self.args.inputbam, os.path.splitext(self.args.inputbam)[0] + '.sorted')
 
 
@@ -114,7 +114,7 @@ class bam_index:
         self.parser.add_argument('-inputbam', required=True)
         self.args = self.parser.parser_args()
 
-    def index(self):
+    def __call__(self):
         index = pysam.index(self.args.inputbam)
 
 
@@ -130,7 +130,7 @@ class aa_pileup:
         self.parser.add_argument('-database', required=True)
         self.args = self.parser.parser_args()
 
-    def pileup(self):
+    def __call__(self):
         fastaFile = pysam.FastaFile(self.args.fastainput)
         bamFile = pysam.AlignmentFile(self.args.BAMinput, "rb")
         ssl_settings = {'ca':self.args.sslpath}
